@@ -1,0 +1,32 @@
+Source: wt
+Section: libdevel
+Priority: optional
+Maintainer: Toby Schneider <toby@gobysoft.org>
+Build-Depends: cmake (>= 3.13.0),
+               debhelper-compat (= 12),
+               default-libmysqlclient-dev | libmysqlclient-dev,
+               libboost-dev (>= 1.66.0),
+               libboost-filesystem-dev (>= 1.66.0),
+               libboost-program-options-dev (>= 1.66.0),
+               libboost-system-dev (>= 1.66.0),
+               libboost-thread-dev (>= 1.66.0),
+               libgraphicsmagick1-dev,
+               libhpdf-dev (<<2.4.0),
+               libpango1.0-dev,
+               libssl-dev
+Standards-Version: 4.5.0
+Homepage: https://www.webtoolkit.eu/wt/
+
+Package: libwt4.11.3
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: C++ library and application server for web applications [libraries]
+ Wt is a web GUI library in modern C++. Quickly develop highly interactive web UIs with widgets, without having to write a single line of JavaScript. Wt handles all request handling and page rendering for you, so you can focus on functionality.
+
+Package: libwt4-dev
+Architecture: any
+Multi-Arch: same
+Depends: libwt4.11.3 (= ${binary:Version}), ${misc:Depends}, ${shlibs:Depends}
+Description: C++ library and application server for web applications [development]
+ Wt is a web GUI library in modern C++. Quickly develop highly interactive web UIs with widgets, without having to write a single line of JavaScript. Wt handles all request handling and page rendering for you, so you can focus on functionality.
