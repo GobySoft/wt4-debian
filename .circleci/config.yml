@@ -228,12 +228,12 @@ jobs:
       <<: *environment-template-common
       <<: *environment-template-bookworm
       <<: *environment-template-arm64
-  arm64-bookworm-build:
+  armhf-bookworm-build:
     <<: *job-template-arm
     environment:
       <<: *environment-template-common
       <<: *environment-template-bookworm
-      <<: *environment-template-amdhf
+      <<: *environment-template-armhf
 
   amd64-jammy-build:
     <<: *job-template-amd64
