@@ -179,9 +179,9 @@ jobs:
           name: Get original source tarball
           command: |
             cd ..
-            uscan --verbose --d
+            uscan --verbose -dd
             mkdir -p /tmp/src
-            mv ../*.orig.tar.gz /tmp/src
+            mv ../*.tar.gz /tmp/src
       - store_artifacts:
           path: /tmp/src
       - persist_to_workspace:
