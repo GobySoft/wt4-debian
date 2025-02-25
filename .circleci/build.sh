@@ -1,5 +1,7 @@
 #!/bin/bash
 
+apt update
+
 echo -e "$GPG_KEY" | gpg --import
 
 cd ${SOURCE_WORKING_DIRECTORY} &&
