@@ -220,7 +220,7 @@ jobs:
     <<: *job-template-upload
     environment:
       <<: *environment-template-common
-      <<: *environment-template-bionic
+      <<: *environment-template-jammy
       <<: *environment-template-amd64
       UPLOAD_DESTINATION: "gobysoft-continuous"
     steps: &steps-upload
@@ -251,7 +251,7 @@ jobs:
     <<: *job-template-upload
     environment:
       <<: *environment-template-common
-      <<: *environment-template-bionic
+      <<: *environment-template-jammy
       <<: *environment-template-amd64
       UPLOAD_DESTINATION: "gobysoft-release"
     steps: *steps-upload
