@@ -1,6 +1,6 @@
 #!/bin/bash
 
-apt update
+apt-get update
 
 echo -e "$GPG_KEY" | gpg --import
 

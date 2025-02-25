@@ -45,9 +45,16 @@ environment-template-jammy: &environment-template-jammy
   DISTRO_RELEASE_VERSION: "ubuntu22.04"
   DOCKER_VERSION: "22.04.1"  
   DOCKER_DISTRO: "ubuntu"
+
+environment-template-noble: &environment-template-noble
+  DISTRO_RELEASE_CODENAME: "noble"
+  DISTRO_RELEASE_VERSION: "ubuntu24.04"
+  DOCKER_VERSION: "24.04.1"  
+  DOCKER_DISTRO: "ubuntu"
+
   
 ## Pre-declare Docker containers
-docker-base-jammy: &docker-base-jammy
+docker-base-noble: &docker-base-noble
   - image: gobysoft/ubuntu-build-base:22.04.1
     
 ## Pre-declare job templates
@@ -78,7 +85,7 @@ job-template-amd64: &job-template-amd64
           cd ${SOURCE_WORKING_DIRECTORY} &&
           export NEWVERSION="$(echo ../*.orig.tar.gz | sed 's/.*_\(.*\)\.orig\.tar\.gz/\1/')"
           COMMENT="Autobuild for version ${NEWVERSION}" &&
-          dch --newversion=${NEWVERSION}-7~${DISTRO_RELEASE_VERSION}.1 -D ${DISTRO_RELEASE_CODENAME} "${COMMENT}"
+          dch --newversion=${NEWVERSION}-1~${DISTRO_RELEASE_VERSION}.1 -D ${DISTRO_RELEASE_CODENAME} "${COMMENT}"
     - run: &run-build-pkg
         name: Build the Debian package in docker
         command: |
@@ -129,7 +136,7 @@ job-template-arm: &job-template-arm
 
 job-template-upload: &job-template-upload
   <<: *job-template-amd64
-  docker: *docker-base-jammy
+  docker: *docker-base-noble
   
 ## Begin actual config
 version: 2
@@ -142,25 +149,45 @@ workflows:
       - amd64-bookworm-build:
           requires:
             - get-orig-source
+      - arm64-bookworm-build:
+          requires:
+            - get-orig-source
+      - armhf-bookworm-build:
+          requires:
+            - get-orig-source
 
       - amd64-jammy-build:
           requires:
             - get-orig-source
-
       - arm64-jammy-build:
           requires:
             - get-orig-source
-
       - armhf-jammy-build:
           requires:
             - get-orig-source
+
+      - amd64-noble-build:
+          requires:
+            - get-orig-source
+      - arm64-noble-build:
+          requires:
+            - get-orig-source
+      - armhf-noble-build:
+          requires:
+            - get-orig-source
+
             
       - continuous-upload:
           requires:
             - amd64-bookworm-build
+            - arm64-bookworm-build
+            - armhf-bookworm-build
             - amd64-jammy-build
             - arm64-jammy-build
             - armhf-jammy-build
+            - amd64-noble-build
+            - arm64-noble-build
+            - armhf-noble-build
 
       - release-upload:
           requires:
@@ -168,10 +195,10 @@ workflows:
 jobs:
   get-orig-source:
     <<: *job-template-amd64
-    docker: *docker-base-jammy
+    docker: *docker-base-noble
     environment:
       <<: *environment-template-common
-      <<: *environment-template-jammy
+      <<: *environment-template-noble
       <<: *environment-template-amd64
     steps:
       - checkout
@@ -195,6 +222,18 @@ jobs:
       <<: *environment-template-common
       <<: *environment-template-bookworm
       <<: *environment-template-amd64
+  arm64-bookworm-build:
+    <<: *job-template-arm
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-bookworm
+      <<: *environment-template-arm64
+  arm64-bookworm-build:
+    <<: *job-template-arm
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-bookworm
+      <<: *environment-template-amdhf
 
   amd64-jammy-build:
     <<: *job-template-amd64
@@ -215,12 +254,31 @@ jobs:
       <<: *environment-template-jammy
       <<: *environment-template-armhf
 
+  amd64-noble-build:
+    <<: *job-template-amd64
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-noble
+      <<: *environment-template-amd64
+  arm64-noble-build:
+    <<: *job-template-arm
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-noble
+      <<: *environment-template-arm64
+  armhf-noble-build:
+    <<: *job-template-arm
+    environment:
+      <<: *environment-template-common
+      <<: *environment-template-noble
+      <<: *environment-template-armhf
+
       
   continuous-upload:
     <<: *job-template-upload
     environment:
       <<: *environment-template-common
-      <<: *environment-template-jammy
+      <<: *environment-template-noble
       <<: *environment-template-amd64
       UPLOAD_DESTINATION: "gobysoft-continuous"
     steps: &steps-upload
@@ -251,7 +309,7 @@ jobs:
     <<: *job-template-upload
     environment:
       <<: *environment-template-common
-      <<: *environment-template-jammy
+      <<: *environment-template-noble
       <<: *environment-template-amd64
       UPLOAD_DESTINATION: "gobysoft-release"
     steps: *steps-upload
