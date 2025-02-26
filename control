@@ -20,7 +20,7 @@ Homepage: https://www.webtoolkit.eu/wt/
 Package: libwt4.11.3
 Architecture: any
 Multi-Arch: same
-Conflicts: libwt50
+Conflicts: libwt50, libwt-common
 Depends: ${misc:Depends}, ${shlibs:Depends}
 Description: C++ library and application server for web applications [libraries]
  Wt is a web GUI library in modern C++. Quickly develop highly interactive web UIs with widgets, without having to write a single line of JavaScript. Wt handles all request handling and page rendering for you, so you can focus on functionality.

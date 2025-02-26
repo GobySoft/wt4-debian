@@ -85,7 +85,7 @@ job-template-amd64: &job-template-amd64
           cd ${SOURCE_WORKING_DIRECTORY} &&
           export NEWVERSION="$(echo ../*.orig.tar.gz | sed 's/.*_\(.*\)\.orig\.tar\.gz/\1/')"
           COMMENT="Autobuild for version ${NEWVERSION}" &&
-          dch --newversion=${NEWVERSION}-1~${DISTRO_RELEASE_VERSION}.1 -D ${DISTRO_RELEASE_CODENAME} "${COMMENT}"
+          dch --newversion=${NEWVERSION}-2~${DISTRO_RELEASE_VERSION}.1 -D ${DISTRO_RELEASE_CODENAME} "${COMMENT}"
     - run: &run-build-pkg
         name: Build the Debian package in docker
         command: |
