@@ -17,7 +17,7 @@ Build-Depends: cmake (>= 3.13.0),
 Standards-Version: 4.5.0
 Homepage: https://www.webtoolkit.eu/wt/
 
-Package: libwt4.11.3
+Package: libwt4.13.1
 Architecture: any
 Multi-Arch: same
 Conflicts: libwt50, libwt-common
@@ -40,7 +40,7 @@ Depends: cmake (>= 3.13.0),
          libhpdf-dev (<<2.4.0),
          libpango1.0-dev,
          libssl-dev,
-         libwt4.11.3 (= ${binary:Version}),
+         libwt4.13.1 (= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends}
 Description: C++ library and application server for web applications [development]
