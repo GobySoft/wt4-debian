@@ -67,13 +67,13 @@ environment-template-resolute: &environment-template-resolute
   
 ## Pre-declare Docker containers
 docker-base-noble: &docker-base-noble
-  - image: gobysoft/ubuntu-build-base:22.04.1
+  - image: gobysoft/ubuntu-build-base:24.04.1
     
 ## Pre-declare job templates
 job-template-amd64: &job-template-amd64
   working_directory: /tmp/debian
   machine:
-    image: ubuntu-2204:current
+    image: ubuntu-2404:current
   resource_class: large
   steps:
     - checkout
@@ -97,7 +97,7 @@ job-template-amd64: &job-template-amd64
           cd ${SOURCE_WORKING_DIRECTORY} &&
           export NEWVERSION="$(echo ../*.orig.tar.gz | sed 's/.*_\(.*\)\.orig\.tar\.gz/\1/')"
           COMMENT="Autobuild for version ${NEWVERSION}" &&
-          dch --newversion=${NEWVERSION}-2~${DISTRO_RELEASE_VERSION}.1 -D ${DISTRO_RELEASE_CODENAME} "${COMMENT}"
+          dch --newversion=${NEWVERSION}-3~${DISTRO_RELEASE_VERSION}.1 -D ${DISTRO_RELEASE_CODENAME} "${COMMENT}"
     - run: &run-build-pkg
         name: Build the Debian package in docker
         command: |
